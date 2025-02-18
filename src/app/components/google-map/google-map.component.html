@@ -1,0 +1,16 @@
+<div style="height: 500px;">
+    <google-map
+      [center]="center"
+      [zoom]="zoom"
+      [options]="{ disableDefaultUI: true }"
+    >
+      <!-- Loop through markerPositions and create a map-marker for each one -->
+      <ng-container *ngFor="let marker of markerPositions">
+        <map-marker 
+          [position]="{ lat: marker.lat, lng: marker.lng }" 
+          [label]="marker.label"
+        ></map-marker>
+      </ng-container>
+    </google-map>
+  </div>
+  

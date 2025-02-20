@@ -1,1 +1,43 @@
-<p>header works!</p>
+<div class="text-TextColor px-8">
+    <div class="flex items-center justify-between px-6 pt-10 pb-4">
+        
+        <!-- Centered Logo -->
+        <div class="flex-1 flex justify-center">
+            <a routerLink="/">
+                <img src="../../../assets/Logo.png" width="100px">
+            </a>
+        </div>
+
+        <!-- Right: User Profile Icon -->
+        <div class="relative" *ngIf="isUserLoggedIn">
+            <img src="../../../assets/Component 1.svg" class="cursor-pointer" width="40px"
+                (click)="toggleDropdown()">
+
+            <!-- Dropdown Content -->
+            <div *ngIf="showDropdown" class="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-4 w-48">
+                <p class="text-black font-bold">Hello, {{ userInfo?.name || 'User' }}!</p>
+                <p class="text-black">Role: {{ userInfo?.role || 'Guest' }}</p>
+                <button (click)="logout()" class="mt-2 bg-OrangeButton text-white px-4 py-2 rounded">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div *ngIf="isHomePage" class="flex w-full">
+        <div class="flex flex-col gap-5 pt-8">
+            <h2 class="text-2xl font-extrabold">Sobre nós</h2>
+            <p>
+                Centralizamos dados de todas as fontes portuguesas sobre radão e avaliamos a potabilidade da água.
+                Ajudamos a população a tomar decisões informadas com transparência e precisão.
+            </p>
+
+            <!-- Hide button if logged in -->
+            <button *ngIf="!isUserLoggedIn" routerLink="/sign-in"
+                class="bg-OrangeButton text-white font-extrabold text-center w-[30%] py-2">
+                Sign In
+            </button>
+        </div>
+    </div>
+</div>

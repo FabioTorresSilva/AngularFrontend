@@ -1,0 +1,12 @@
+<div *ngIf="fountain">
+    <h2>{{ fountain.description || 'No description available' }}</h2>
+    <p><strong>Drinkable:</strong> {{ fountain.isDrinkable ? 'Yes' : 'No' }}</p>
+    <p><strong>Susceptibility Index:</strong> {{ fountain.susceptibilityIndex }}</p>
+    <p><strong>City:</strong> {{ fountain.address || 'Unknown' }}</p>
+    <p><strong>Latitude:</strong> {{ fountain.lat }}</p>
+    <p><strong>Longitude:</strong> {{ fountain.lng }}</p>
+  
+    <!-- Include the Street View Photo Component -->
+    <app-fountain-street-view [lat]="fountain.lat" [lng]="fountain.lng"></app-fountain-street-view>
+  </div>
+  

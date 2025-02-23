@@ -24,4 +24,9 @@ export class FountainStreetViewComponent implements OnInit {
     this.streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${this.lat},${this.lng}&fov=${fov}&heading=${heading}&pitch=${pitch}&key=${apiKey}`;
     console.log(this.streetViewUrl)
   }
+
+  onImageError() {
+    // Set a default fallback image if Street View is not available.
+    this.streetViewUrl = 'assets/Logo.png';
+  }
 }

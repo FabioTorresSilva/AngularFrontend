@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environement';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeocodingService {
-  private apiUrl = 'https://nominatim.openstreetmap.org/reverse';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   reverseGeocode(lat: number, lon: number): Observable<string> {
-    return this.http.get<any>(this.apiUrl, {
-      params: {
-        lat: lat.toString(),
-        lon: lon.toString(),
-        format: 'json'
-      }
-    }).pipe(
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${environment.opencageApiKey}`;
+    console.log("Requesting URL: ", url);
+
+    return this.http.get<any>(url).pipe(
       map(response => {
-        // Extract city, town, or village (as they can vary)
-        return response.address.city || response.address.town || response.address.village || 'Unknown';
+        if (response.results && response.results.length > 0) {
+          const components = response.results[0].components;
+          return components.city || components.town || components.village || components.county || 'Unknown';
+        } else {
+          return 'Unknown';
+        }
       })
     );
   }

@@ -1,5 +1,68 @@
-<div class="flex justify-center items-center w-full px-6">
-    <div class="w-full ">
-      <h1 class="text-center text-xl font-bold mb-4">My Google Map</h1>
-    <app-map [markers]="locations"></app-map>
+<div class="flex flex-col gap-6 p-4 sm:p-6 lg:px-72 px-8">
+  <div *ngIf="isUserLoggedIn" class="bg-white shadow rounded-lg p-4">
+    <h2 class="text-xl font-bold mb-3">As tuas fontes Favoritas</h2>
+    <a routerLink="/favourites" class="block text-blue-600 underline mb-4">
+      Ver todas as favoritas
+    </a>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="px-2 py-2 text-left text-sm font-medium">Nome da Fonte</th>
+            <th class="px-2 py-2 text-left text-sm font-medium">Estado Atual</th>
+            <th class="px-2 py-2 text-left text-sm font-medium">Risco Radão</th>
+            <th class="px-2 py-2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fav of favorites" class="hover:bg-gray-50">
+            <td class="px-2 py-2 text-sm cursor-pointer" (click)="router.navigate(['/fountain', fav.id])">
+              {{ fav.description }}
+            </td>
+            <td class="px-2 py-2 text-sm">
+              {{ fav.isDrinkable ? 'potável' : 'não potável' }}
+            </td>
+            <td class="px-2 py-2 text-sm">
+              {{ fav.susceptibilityIndex }}
+            </td>
+            <td class="px-2 py-2 text-center">
+              <span class="text-red-500 cursor-pointer" (click)="toggleFavorite(fav)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                </svg>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Map Section -->
+  <div class="bg-white shadow rounded-lg p-4">
+    <h2 class="text-xl font-bold mb-3">Fontes em Portugal:</h2>
+    <div class="flex justify-between gap-3 ">
+      <select
+        class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-900"
+        (change)="onCitySelect($event)">
+        <option value="todos" selected>Todos</option>
+        <option *ngFor="let city of cities" [value]="city.name">
+          {{ city.name }}
+        </option>
+      </select>
+      <button 
+        class=" bg-gray-400 text-white py-2 px-3 rounded hover:bg-green-500"
+        (click)="zoomNearMe()">
+        Perto de mim
+      </button>
+    </div>
+    <div class="mt-4">
+      <app-map [markers]="filteredLocations"></app-map>
+    </div>
+  </div>
+
+  <!-- Radon Info Section -->
+  <div class="bg-white shadow rounded-lg p-4">
+    <app-radon-info></app-radon-info>
+  </div>
 </div>

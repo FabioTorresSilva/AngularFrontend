@@ -1,0 +1,35 @@
+<div class="bg-white shadow-md rounded-lg p-4">
+    <!-- Menu de seleção -->
+    <div class="flex justify-evenly gap-4 border-b pb-2 mb-4">
+        <button (click)="selectedTopic = 'radon'" class="tab-button" [class.active]="selectedTopic === 'radon'">
+            Radão
+        </button>
+        <button (click)="selectedTopic = 'water'" class="tab-button" [class.active]="selectedTopic === 'water'">
+            Na Água
+        </button>
+    </div>
+
+    <!-- Conteúdo das seções -->
+    <div *ngIf="selectedTopic === 'radon'">
+
+        <p class="text-gray-700">
+            O radão é um gás radioativo de origem natural, incolor e inodoro, resultante da decomposição do urânio
+            presente em rochas e solos.
+        </p>
+        <p class="text-gray-700">
+            A consciencialização sobre os riscos associados ao radão e a implementação de medidas preventivas são
+            fundamentais para proteger a saúde pública, especialmente em regiões onde a presença deste gás é mais
+            frequente.
+        </p>
+    </div>
+
+    <div *ngIf="selectedTopic === 'water'">
+        <p class="text-gray-700">
+            O radão é um gás radioativo que se dissolve facilmente em água subterrânea, especialmente quando esta está
+            em contacto com rochas ricas em urânio, como o granito.
+        </p>
+        <p class="text-gray-700">
+            Poços, nascentes e furos em áreas graníticas são mais propensos a conter níveis elevados de radão na água.
+        </p>
+    </div>
+</div>

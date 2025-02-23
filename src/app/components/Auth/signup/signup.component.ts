@@ -9,8 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [FormsModule, RouterModule, CommonModule
-  ],
+  imports: [FormsModule, RouterModule, CommonModule],
   standalone:true
 })
 export class SignUpComponent {
@@ -25,7 +24,7 @@ export class SignUpComponent {
     if (this.name && this.email && this.password) {
       const userData = { name: this.name, email: this.email, password: this.password };
 
-      this.http.post(`${environment.apiBaseUrl}/user/signup`, userData).subscribe({
+      this.http.post(`${environment.apiBaseUrl}/auth/signup`, userData, { responseType: 'text' }).subscribe({
         next: (response) => {
           console.log('Signup successful', response);
           this.router.navigate(['/sign-in']);

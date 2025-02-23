@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-gray-100">
+    <!-- Navigation Menu -->
+    <div class="bg-white shadow">
+      <nav class="flex justify-center p-4 space-x-8">
+        <button
+          class="py-2 px-4 font-semibold border-b-2 focus:outline-none"
+          [ngClass]="{
+            'text-blue-500 border-blue-500': selectedMenu === 'fountains',
+            'text-gray-600 border-transparent': selectedMenu !== 'fountains'
+          }"
+          (click)="selectedMenu = 'fountains'"
+        >
+          Fountain Management
+        </button>
+        <button
+          class="py-2 px-4 font-semibold border-b-2 focus:outline-none"
+          [ngClass]="{
+            'text-blue-500 border-blue-500': selectedMenu === 'testers',
+            'text-gray-600 border-transparent': selectedMenu !== 'testers'
+          }"
+          (click)="selectedMenu = 'testers'"
+        >
+          Tester Management
+        </button>
+      </nav>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="p-8">
+      <!-- Fountain Management Section -->
+      <div *ngIf="selectedMenu === 'fountains'">
+        <h2 class="text-2xl font-bold mb-4">Fountain Management</h2>
+        <div class="mb-4">
+          <input
+            type="text"
+            placeholder="Search Fountain..."
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <table class="min-w-full bg-white border">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 border">Fountain ID</th>
+              <th class="px-4 py-2 border">Fountain Name</th>
+              <th class="px-4 py-2 border">Fountain Location</th>
+              <th class="px-4 py-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-2 border">Sample Fountain ID</td>
+              <td class="px-4 py-2 border">Sample Fountain Name</td>
+              <td class="px-4 py-2 border">Sample Fountain Location</td>
+              <td class="px-4 py-2 border">
+                <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2">
+                  Update
+                </button>
+                <button class="bg-red-500 text-white px-2 py-1 rounded">
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <!-- Add additional sample rows as needed -->
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Tester Management Section -->
+      <div *ngIf="selectedMenu === 'testers'">
+        <h2 class="text-2xl font-bold mb-4">Tester Management</h2>
+        <!-- Tester Account Creation -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">Create Tester Account</h3>
+          <form class="bg-white p-6 rounded shadow-md">
+            <div class="mb-4">
+          
+  

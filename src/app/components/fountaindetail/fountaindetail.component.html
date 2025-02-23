@@ -1,12 +1,29 @@
-<div *ngIf="fountain">
-    <h2>{{ fountain.description || 'No description available' }}</h2>
-    <p><strong>Drinkable:</strong> {{ fountain.isDrinkable ? 'Yes' : 'No' }}</p>
-    <p><strong>Susceptibility Index:</strong> {{ fountain.susceptibilityIndex }}</p>
-    <p><strong>City:</strong> {{ fountain.address || 'Unknown' }}</p>
-    <p><strong>Latitude:</strong> {{ fountain.lat }}</p>
-    <p><strong>Longitude:</strong> {{ fountain.lng }}</p>
-  
-    <!-- Include the Street View Photo Component -->
-    <app-fountain-street-view [lat]="fountain.lat" [lng]="fountain.lng"></app-fountain-street-view>
+<div *ngIf="fountain" class="p-3 bg-white shadow rounded-lg">
+  <div class="flex flex-row items-center">
+    <!-- Fountain Street View Image (Left) -->
+    <div class="w-1/3">
+      <app-fountain-street-view [lat]="fountain.lat" [lng]="fountain.lng"></app-fountain-street-view>
+    </div>
+    <!-- Fountain Information (Right) -->
+    <div class="w-2/3 pl-3">
+      <h2 class="text-base font-bold">
+        {{ fountain.description || 'No description available' }}
+      </h2>
+      <p class="mt-1 text-xs ">
+        {{ fountain.isDrinkable ? 'potável' : 'não potável' }}
+      </p>
+      <p class="mt-1 text-xs text-gray-700">
+        <span class="font-semibold">Índice de Suscetibilidade:</span>
+        {{ fountain.susceptibilityIndex }}
+      </p>
+      <p class="mt-1 text-xs text-gray-600">
+        <span class="font-semibold">Cidade:</span>
+        {{ fountain.address || 'Desconhecida' }}
+      </p>
+      <p class="mt-1 text-xs text-gray-600">
+        <span class="font-semibold">Lat:</span> {{ fountain.lat }},
+        <span class="font-semibold">Lng:</span> {{ fountain.lng }}
+      </p>
+    </div>
   </div>
-  
+</div>

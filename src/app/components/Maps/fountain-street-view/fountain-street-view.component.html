@@ -1,2 +1,6 @@
-<!-- This file is just for displaying the Street View image -->
-<img [src]="streetViewUrl" alt="Street View Image of Fountain Location">
+<img
+  [src]="streetViewUrl"
+  (error)="onImageError()"
+  alt="Street view not available"
+  class="w-20"
+/>

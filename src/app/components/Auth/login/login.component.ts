@@ -17,13 +17,21 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   login() {
     this.authService.login(this.email, this.password).subscribe({
       next: (user) => {
         console.log('Logged in successfully:', user);
-        this.router.navigate(['/']); // Redirect to home after login
+        let redirectUrl = '/'; 
+        if (user.role && user.role.toLowerCase() === 'manager') {
+          redirectUrl = '/dashboard';
+        } else if (user.role && user.role.toLowerCase() === 'tester') {
+          redirectUrl = '/tester';
+        }
+        this.router.navigate([redirectUrl]).then(() => {
+          window.location.reload();
+        });
       },
       error: (error) => {
         this.errorMessage = 'Invalid email or password. Try again.';

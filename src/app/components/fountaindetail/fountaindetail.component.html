@@ -7,7 +7,7 @@
     <!-- Fountain Information (Right) -->
     <div class="w-2/3 pl-3 ">
       <h2 class="text-base font-bold">
-        {{ fountain.description || 'No description available' }}
+        {{ fountain.description || 'Nenhuma descrição disponível' }}
       </h2>
       <p class="mt-1 text-xs font-semibold text-gray-700">
         {{ fountain.isDrinkable ? 'Potável' : 'Não Potável' }}
@@ -55,6 +55,6 @@
   </div>
   <!-- Display a message when no water analysis is available -->
   <div *ngIf="waterAnalysis && waterAnalysis.length === 0" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <p class="text-gray-700">No water analysis available.</p>
+    <p class="text-gray-700">Nenhuma análise de água disponível.</p>
   </div>
 </div>

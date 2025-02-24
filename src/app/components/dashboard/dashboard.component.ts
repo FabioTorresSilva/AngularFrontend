@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
   testerPassword: string = '';
   successMessage: string = ''; 
 
+  editingTesterId: number | null = null;
+
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -28,7 +30,6 @@ export class DashboardComponent implements OnInit {
 
   getTesters(): void {
     const token = this.authService.authToken;
-    console.log('Token from authService:', token);
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -36,7 +37,6 @@ export class DashboardComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8080/api/user/role/Tester', { headers })
       .subscribe({
         next: (data) => {
-          console.log('Fetched testers:', data);
           this.testers = data;
         },
         error: (err) => {
@@ -56,19 +56,41 @@ export class DashboardComponent implements OnInit {
     this.http.post('http://localhost:8080/api/auth/signup', payload, { responseType: 'text' })
       .subscribe({
         next: (res: string) => {
-          console.log('Tester account created successfully', res);
-          this.successMessage = 'Tester account created successfully!';
-          // Clear the form fields
+          this.successMessage = 'Conta de Tester Criada com sucesso';
           this.testerName = '';
           this.testerEmail = '';
           this.testerPassword = '';
-          // Refresh tester list
           this.getTesters();
         },
         error: (err) => {
           console.error('Error creating tester account', err);
-          this.successMessage = ''; // Optionally handle error message here
+          this.successMessage = ''; 
         }
       });
+  }
+
+  updateTester(tester: any): void {
+    const token = this.authService.authToken;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.put(`http://localhost:8080/api/user/${tester.id}`, tester, { headers, responseType: 'text' })
+      .subscribe({
+        next: (res) => {
+          this.successMessage = 'Tester updated successfully';
+          this.editingTesterId = null;
+          this.getTesters(); 
+        },
+        error: (err) => {
+          console.error('Error updating tester', err);
+          this.successMessage = '';
+        }
+      });
+  }
+
+  cancelEdit(): void {
+    this.editingTesterId = null;
+    this.getTesters();
   }
 }

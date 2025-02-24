@@ -34,8 +34,9 @@ import {
       curve: 'smooth'
     } as ApexStroke,
     title: {
-      text: 'Evolução dos niveis Radão nesta fonte',
-      align: 'left'
+        text: 'Evolução dos niveis Radão nesta fonte',
+        align: 'left',
+        width:200
     } as ApexTitleSubtitle,
     tooltip: {
       enabled: true

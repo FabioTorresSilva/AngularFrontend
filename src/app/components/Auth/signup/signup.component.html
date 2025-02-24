@@ -1,11 +1,11 @@
 <div class="flex justify-center items-center py-10">
     <div class="bg-white shadow-lg p-8 rounded-lg w-96">
-      <h2 class="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+      <h2 class="text-2xl font-bold mb-4 text-center">Criar conta</h2>
   
       <form (ngSubmit)="signUp()" class="flex flex-col gap-4">
         <!-- Name -->
         <div>
-          <label class="block text-sm font-medium" for="name">Name</label>
+          <label class="block text-sm font-medium" for="name">Nome</label>
           <input 
             type="text" 
             id="name" 
@@ -31,7 +31,7 @@
   
         <!-- Password -->
         <div>
-          <label class="block text-sm font-medium" for="password">Password</label>
+          <label class="block text-sm font-medium" for="password">Palavra-passe</label>
           <input 
             type="password" 
             id="password" 
@@ -47,7 +47,7 @@
           type="submit" 
           class="bg-OrangeButton text-white font-bold py-2 rounded-md w-full"
         >
-          Sign Up
+          Criar Conta
         </button>
   
         <p *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
@@ -55,8 +55,8 @@
   
       <!-- Login link -->
       <p class="mt-4 text-center text-sm text-gray-600">
-        Already have an account? 
-        <a routerLink="/sign-in" class="text-blue-500 hover:underline">Login here</a>
+        Já possui uma conta? 
+        <a routerLink="/sign-in" class="text-blue-500 hover:underline">Fazer login</a>
       </p>
     </div>
   </div>

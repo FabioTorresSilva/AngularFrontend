@@ -24,11 +24,9 @@ export class FavouritesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Subscribe to the user observable to know if the user is logged in
     this.authService.user.subscribe(user => {
       if (user && user.id) {
         this.isUserLoggedIn = true;
-        // Fetch all favorites for the logged-in user
         this.fountainService.getUserFavourites(user.id).subscribe({
           next: (data: Fountain[]) => {
             this.favorites = data;
@@ -37,7 +35,6 @@ export class FavouritesComponent implements OnInit {
         });
       } else {
         this.isUserLoggedIn = false;
-        // Optionally redirect to login if not logged in
         this.router.navigate(['/login']);
       }
     });

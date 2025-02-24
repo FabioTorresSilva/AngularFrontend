@@ -14,8 +14,8 @@
       </p>
       <p class="mt-1 text-xs text-gray-700">
         <span class="font-semibold">Índice de Suscetibilidade:</span>
-        {{ fountain.susceptibilityIndex === 'Moderate' ? 'Moderado' : 
-           (fountain.susceptibilityIndex === 'Low' ? 'Baixo' : 'Alto') }}
+        {{ fountain.susceptibilityIndex === 'Moderate' ? 'Moderado' :
+        (fountain.susceptibilityIndex === 'Low' ? 'Baixo' : 'Alto') }}
       </p>
       <p class="mt-1 text-xs text-gray-600">
         <span class="font-semibold">Cidade:</span>
@@ -26,5 +26,44 @@
         <span class="font-semibold">Lng:</span> {{ fountain.lng }}
       </p>
     </div>
+
+  </div>
+  <!-- Water Analysis Section -->
+  <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+    <h3 class="text-xl font-bold text-gray-800 mb-4">Water Analysis</h3>
+    <div class="grid grid-cols-1 gap-4">
+      <div *ngFor="let analysis of waterAnalysis"
+        class="p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row justify-between items-center">
+        <div class="mb-2 sm:mb-0">
+          <p class="text-gray-700">
+            <span class="font-semibold">Radon Concentration:</span>
+            {{ analysis.radonConcentration }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-semibold">Device ID:</span>
+            {{ analysis.deviceId }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-semibold">Date:</span>
+            {{ analysis.date | date:'medium' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+    <apx-chart
+      [series]="chartOptions.series" 
+      [chart]="chartOptions.chart" 
+      [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels" 
+      [stroke]="chartOptions.stroke" 
+      [title]="chartOptions.title"
+      [tooltip]="chartOptions.tooltip">
+    </apx-chart>
+  </div>
+  <!-- Display a message when no water analysis is available -->
+  <div *ngIf="waterAnalysis && waterAnalysis.length === 0" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+    <p class="text-gray-700">No water analysis available.</p>
   </div>
 </div>

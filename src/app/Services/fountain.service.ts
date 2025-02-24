@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map, tap, catchError, throwError } from 'rxjs';
 import { LatLng } from '../components/Maps/map/map.component';
 import { Fountain } from '../Models/fountain';
 import { environment } from '../../environments/environement';
 import { AuthService } from './auth.service';
+import { WaterAnalysis } from '../Models/wateranalysis';
 
 interface ApiFountain {
   id: number;
@@ -21,6 +22,7 @@ interface ApiFountain {
 })
 export class FountainService {
   private apiUrl = `${environment.apiBaseUrl}/fountains`;
+  private dotnetUrl = `${environment.dotnetUrl}/fountains`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -29,6 +31,17 @@ export class FountainService {
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+  }
+
+  toggleFavorite(userId: number, fountainId: number): Observable<Fountain> {
+    const url = `${environment.apiBaseUrl}/user/addfavorite/${userId}/${fountainId}`;
+    return this.http.post<Fountain>(url, null, { headers: this.getAuthHeaders() }).pipe(
+      tap(response => console.log('Toggle favorite response:', response)),
+      catchError(error => {
+        console.error('Error toggling favorite:', error);
+        return throwError(() => new Error(error.message || 'An error occurred'));
+      })
+    );
   }
 
   getFountains(): Observable<LatLng[]> {
@@ -75,6 +88,11 @@ export class FountainService {
     );
   }
 
+  getWaterAnalysisByFountainId(fountainId: number): Observable<WaterAnalysis[]> {
+    const params = new HttpParams().set('count', '10');
+    return this.http.get<WaterAnalysis[]>(`${this.dotnetUrl}/${fountainId}/water-analysis`, { params });
+  }
+
   getXFavourites(userId: number, count: number): Observable<Fountain[]> {
     const url = `${environment.apiBaseUrl}/user/favorites/${userId}/${count}`;
     return this.http.get<Fountain[]>(url, { headers: this.getAuthHeaders() }).pipe(
@@ -85,9 +103,9 @@ export class FountainService {
       })
     );
   }
-  
+
   getUserFavourites(userId: number): Observable<Fountain[]> {
-    const url = `${environment.apiBaseUrl}/favorites/${userId}`;
+    const url = `${environment.apiBaseUrl}/user/favorites/${userId}`;
     return this.http.get<Fountain[]>(url, { headers: this.getAuthHeaders() }).pipe(
       tap(data => console.log('User favorites:', data)),
       catchError(error => {

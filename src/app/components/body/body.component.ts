@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { MapComponent, LatLng } from '../Maps/map/map.component';
 import { FountainService } from '../../Services/fountain.service';
 import { AuthService } from '../../Services/auth.service';
-import { Subscription } from 'rxjs';
+import { catchError, Observable, Subscription, tap, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Fountain } from '../../Models/fountain';
 import { RadonInfoComponent } from "./radon-info/radon-info.component";
+import { environment } from '../../../environments/environement';
 
 interface City {
   name: string;
@@ -84,12 +85,27 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   toggleFavorite(fountain: Fountain): void {
-    const index = this.favorites.findIndex(f => f.id === fountain.id);
-    if (index > -1) {
-      this.favorites.splice(index, 1);
-    } else {
-      this.favorites.push(fountain);
+    // Assuming your AuthService holds the current user details
+    const currentUser = this.authService.currentUser; // or however you access the current user
+    if (!currentUser) {
+      console.error('User not logged in.');
+      return;
     }
+    
+    this.fountainService.toggleFavorite(currentUser.id, fountain.id).subscribe({
+      next: (result: Fountain) => {
+        console.log('Favorite toggled successfully', result);
+        this.fountainService.getXFavourites(currentUser.id, 3).subscribe({
+          next: (favData: Fountain[]) => {
+            this.favorites = favData;
+          },
+          error: err => console.error('Error refreshing favorites:', err)
+        });
+      },
+      error: (err) => {
+        console.error('Error toggling favorite:', err);
+      }
+    });
   }
 
   zoomNearMe(): void {

@@ -21,7 +21,7 @@ export class FountainDetailComponent implements OnInit {
   fountain: Fountain | null = null;
   loadingAddress: boolean = false;
   waterAnalysis: WaterAnalysis[] = [];
-  public chartOptions: Partial<ChartOptions> = defaultChartOptions;
+  public chartOptions: ChartOptions = defaultChartOptions;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,7 +67,7 @@ export class FountainDetailComponent implements OnInit {
       }
     });
   }
-  
+
   initializeChart(): void {
     const dates = this.waterAnalysis.map(wa => new Date(wa.date).toLocaleDateString());
     const radonValues = this.waterAnalysis.map(wa => wa.radonConcentration);
@@ -77,7 +77,7 @@ export class FountainDetailComponent implements OnInit {
       ...this.chartOptions,
       series: [
         {
-          name: 'Radon Concentration',
+          name: 'Concentração Radão',
           data: radonValues
         }
       ],

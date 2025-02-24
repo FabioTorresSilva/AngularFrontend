@@ -18,27 +18,27 @@ import {
     tooltip: ApexTooltip;
   }
   
-  export const defaultChartOptions: Partial<ChartOptions> = {
-    series: [], // default to an empty array so it's never undefined
+  export const defaultChartOptions: ChartOptions = {
+    series: [] as ApexAxisChartSeries,
     chart: {
       height: 350,
       type: 'line'
-    },
+    } as ApexChart,
     xaxis: {
       categories: []
-    },
+    } as ApexXAxis,
     dataLabels: {
       enabled: true
-    },
+    } as ApexDataLabels,
     stroke: {
       curve: 'smooth'
-    },
+    } as ApexStroke,
     title: {
-      text: 'Radon Concentration Evolution',
+      text: 'Evolução dos niveis Radão nesta fonte',
       align: 'left'
-    },
+    } as ApexTitleSubtitle,
     tooltip: {
       enabled: true
-    }
+    } as ApexTooltip
   };
   

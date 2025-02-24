@@ -30,35 +30,26 @@
   </div>
   <!-- Water Analysis Section -->
   <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Water Analysis</h3>
+    <h3 class="text-xl font-bold text-gray-800 mb-4">Últimas Análises</h3>
     <div class="grid grid-cols-1 gap-4">
       <div *ngFor="let analysis of waterAnalysis"
         class="p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row justify-between items-center">
         <div class="mb-2 sm:mb-0">
           <p class="text-gray-700">
-            <span class="font-semibold">Radon Concentration:</span>
+            <span class="font-semibold">Concentração de Radão: </span>
             {{ analysis.radonConcentration }}
           </p>
           <p class="text-gray-700">
-            <span class="font-semibold">Device ID:</span>
-            {{ analysis.deviceId }}
-          </p>
-          <p class="text-gray-700">
-            <span class="font-semibold">Date:</span>
-            {{ analysis.date | date:'medium' }}
+            <span class="font-semibold">Data da Análise:</span>
+            {{ analysis.date }}
           </p>
         </div>
       </div>
     </div>
   </div>
   <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <apx-chart
-      [series]="chartOptions.series" 
-      [chart]="chartOptions.chart" 
-      [xaxis]="chartOptions.xaxis"
-      [dataLabels]="chartOptions.dataLabels" 
-      [stroke]="chartOptions.stroke" 
-      [title]="chartOptions.title"
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke" [title]="chartOptions.title"
       [tooltip]="chartOptions.tooltip">
     </apx-chart>
   </div>

@@ -10,7 +10,6 @@ import { User } from '../Models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  // BehaviorSubject to track the current user (null means not logged in)
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
 
@@ -68,6 +67,10 @@ export class AuthService {
   logout(): void {
     this.tokenService.deleteToken('user_token');
     this.userSubject.next(null);
+  }
+
+  public get authToken(): string | null {
+    return this.currentUser ? this.currentUser.token : null;
   }
 
   /**

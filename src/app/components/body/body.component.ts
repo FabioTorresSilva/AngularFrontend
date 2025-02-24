@@ -100,7 +100,6 @@ export class BodyComponent implements OnInit, OnDestroy {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          // You can set your desired zoom level (e.g., 15)
           this.mapComponent.updateView(userLocation, 15);
         },
         (error) => {
@@ -118,13 +117,10 @@ export class BodyComponent implements OnInit, OnDestroy {
     const selectedValue = (event.target as HTMLSelectElement).value;
 
     if (selectedValue === 'todos') {
-      // Reset the map view to the default view
       this.mapComponent.updateView(this.center, this.zoom);
     } else {
-      // Find the selected city from the loaded JSON
       const selectedCity = this.cities.find(city => city.name === selectedValue);
       if (selectedCity) {
-        // Update the map view with the city's center and a chosen zoom level
         this.mapComponent.updateView(selectedCity.center, 12);
       }
     }

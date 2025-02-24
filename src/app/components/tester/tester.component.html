@@ -5,34 +5,34 @@
         class="px-4 py-2 bg-blue-500 text-white rounded" 
         [ngClass]="{ 'bg-blue-700': selectedMenu === 'water-analysis' }"
         (click)="setMenu('water-analysis')">
-        Water Analysis
+        Análises de Água
       </button>
   
       <button 
         class="px-4 py-2 bg-blue-500 text-white rounded" 
         [ngClass]="{ 'bg-blue-700': selectedMenu === 'devices' }"
         (click)="setMenu('devices')">
-        Devices
+        Dispositivos
       </button>
   
       <button 
         class="px-4 py-2 bg-blue-500 text-white rounded" 
         [ngClass]="{ 'bg-blue-700': selectedMenu === 'latest-analysis' }"
         (click)="setMenu('latest-analysis')">
-        Latest Analysis
+        últimas Análises
       </button>
   
       <button 
         class="px-4 py-2 bg-blue-500 text-white rounded" 
         [ngClass]="{ 'bg-blue-700': selectedMenu === 'stats' }"
         (click)="setMenu('stats')">
-        Stats
+        Estatísticas
       </button>
     </div>
   
     <!-- Water Analysis Section -->
     <div *ngIf="selectedMenu === 'water-analysis'" class="p-4 bg-white shadow rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Create Water Analysis</h2>
+      <h2 class="text-xl font-bold mb-4">Criar Análise de Água</h2>
       <form class="space-y-4">
         <input 
           type="text" 
@@ -53,14 +53,14 @@
         />
   
         <button class="px-4 py-2 bg-green-500 text-white rounded">
-          Submit Water Analysis
+          Enviar Análise de Água
         </button>
       </form>
     </div>
   
     <!-- Devices Section -->
     <div *ngIf="selectedMenu === 'devices'" class="p-4 bg-white shadow rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Create Device</h2>
+      <h2 class="text-xl font-bold mb-4">Criar Dispositivo</h2>
       <form class="space-y-4">
         <input 
           type="text" 
@@ -69,40 +69,40 @@
         />
   
         <select class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300">
-          <option>Continuous Use Device</option>
-          <option>Regular Device</option>
+          <option>Dispositivo de Uso Contínuo</option>
+          <option>Dispositivo Regular</option>
         </select>
   
         <button class="px-4 py-2 bg-green-500 text-white rounded">
-          Add Device
+          Adicionar Dispositivo
         </button>
       </form>
     </div>
   
     <!-- Latest Water Analysis Section -->
     <div *ngIf="selectedMenu === 'latest-analysis'" class="p-4 bg-white shadow rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Latest Water Analysis</h2>
+      <h2 class="text-xl font-bold mb-4">Última Análise de Água</h2>
       <table class="w-full border-collapse border">
         <thead>
           <tr class="bg-gray-100">
-            <th class="px-4 py-2 border">Analysis ID</th>
-            <th class="px-4 py-2 border">Location</th>
-            <th class="px-4 py-2 border">pH Level</th>
-            <th class="px-4 py-2 border">Contaminants</th>
+            <th class="px-4 py-2 border">ID Análise</th>
+            <th class="px-4 py-2 border">Localização</th>
+            <th class="px-4 py-2 border">Nível do pH</th>
+            <th class="px-4 py-2 border">Contaminantes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="px-4 py-2 border">Sample Analysis ID</td>
-            <td class="px-4 py-2 border">Sample Location</td>
+            <td class="px-4 py-2 border">ID da Análise de Amostra</td>
+            <td class="px-4 py-2 border">Localização da Amostra</td>
             <td class="px-4 py-2 border">7.5</td>
-            <td class="px-4 py-2 border">Low</td>
+            <td class="px-4 py-2 border">Baixo</td>
           </tr>
           <tr>
-            <td class="px-4 py-2 border">Sample Analysis ID</td>
-            <td class="px-4 py-2 border">Sample Location</td>
+            <td class="px-4 py-2 border">ID da Análise de Amostra</td>
+            <td class="px-4 py-2 border">Localização da Amostra</td>
             <td class="px-4 py-2 border">6.9</td>
-            <td class="px-4 py-2 border">Medium</td>
+            <td class="px-4 py-2 border">Médio</td>
           </tr>
         </tbody>
       </table>
@@ -110,23 +110,23 @@
   
     <!-- Stats Section -->
     <div *ngIf="selectedMenu === 'stats'" class="p-4 bg-white shadow rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Statistics</h2>
+      <h2 class="text-xl font-bold mb-4">Estatísticas</h2>
       <div class="grid grid-cols-2 gap-4">
         <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Total Analyses</p>
-          <p class="text-2xl">Sample Number</p>
+          <p class="text-lg font-bold">Todas Análises</p>
+          <p class="text-2xl">Número da Amostra</p>
         </div>
         <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">High Contamination Cases</p>
-          <p class="text-2xl">Sample Number</p>
+          <p class="text-lg font-bold">Casos de Contaminação Alta</p>
+          <p class="text-2xl">Número da Amostra</p>
         </div>
         <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Avg. pH Level</p>
-          <p class="text-2xl">Sample pH</p>
+          <p class="text-lg font-bold">Média Nível pH</p>
+          <p class="text-2xl">Amostra pH</p>
         </div>
         <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Total Devices</p>
-          <p class="text-2xl">Sample Number</p>
+          <p class="text-lg font-bold">Todos Dispositivos</p>
+          <p class="text-2xl">Número da Amostra</p>
         </div>
       </div>
     </div>

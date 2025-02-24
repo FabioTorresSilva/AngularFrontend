@@ -20,12 +20,13 @@ export class AuthService {
       try {
         storedUser = JSON.parse(tokenData) as User;
       } catch (e) {
-        console.error('Error parsing stored token:', e);
+        console.error('Erro ao converter token para JSON:', e);
       }
     }
     this.userSubject = new BehaviorSubject<User | null>(storedUser);
     this.user = this.userSubject.asObservable();
   }
+  
 
   /**
    * Returns the current user value.
@@ -40,26 +41,34 @@ export class AuthService {
    */
   login(email: string, password: string): Observable<User> {
     return this.http
-      .post(`${environment.apiBaseUrl}/auth/signin`, { email, password }, { responseType: 'text' })
+      .post<User>(`${environment.apiBaseUrl}/auth/signin`, { email, password })
       .pipe(
-        map(response => {
-          this.tokenService.saveToken('user_token', response);
-          let parsedUser: User;
-          try {
-            parsedUser = JSON.parse(response) as User;
-          } catch (e) {
-            console.error('Error parsing login response:', e);
-            throw new Error('Invalid token format');
+        map(user => {
+          if (!user || !user.token) {
+            throw new Error('Resposta inválida do servidor');
           }
-          this.userSubject.next(parsedUser);
-          return parsedUser;
+          
+          // Verifique se `name` existe, caso contrário, busque manualmente
+          if (!user.name) {
+            user.name = this.extractNameFromEmail(email);
+          }
+  
+          this.tokenService.saveToken('user_token', JSON.stringify(user));
+          this.userSubject.next(user);
+          return user;
         }),
         catchError(error => {
           this.logout();
-          return throwError(() => new Error(error.message || 'An error occurred during login'));
+          return throwError(() => new Error(error.message || 'Erro ao fazer login'));
         })
       );
   }
+  
+  private extractNameFromEmail(email: string): string {
+    return email.split('@')[0]; // Pega a parte antes do @ como nome temporário
+  }
+  
+  
 
   /**
    * Logs out the user by removing the token and clearing user state.

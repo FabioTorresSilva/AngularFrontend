@@ -1,7 +1,7 @@
 export interface Fountain {
     id: number; 
     description?: string;
-    susceptibilityIndex?: number;
+    susceptibilityIndex?: any;
     continuousUseDeviceId?: number | null;
     isDrinkable?: boolean;
     lat: number;

@@ -10,9 +10,9 @@ module.exports = {
       },
       colors:{
         background: "#FFFAF5",
-        OrangeButton: "#E16A00",
+        OrangeButton: "#0D47A1",
         TextColor: "#241400",
-        FooterBackground: "#391F00"
+        FooterBackground: "#E3F2FD"
       }
     },
   },

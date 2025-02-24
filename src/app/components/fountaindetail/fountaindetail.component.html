@@ -1,20 +1,21 @@
-<div *ngIf="fountain" class="p-3 bg-white shadow rounded-lg">
+<div *ngIf="fountain" class="p-3 bg-white shadow rounded-lg lg:mx-72 ">
   <div class="flex flex-row items-center">
-    <!-- Fountain Street View Image (Left) -->
+    <!-- Fountain Street View Image-->
     <div class="w-1/3">
       <app-fountain-street-view [lat]="fountain.lat" [lng]="fountain.lng"></app-fountain-street-view>
     </div>
     <!-- Fountain Information (Right) -->
-    <div class="w-2/3 pl-3">
+    <div class="w-2/3 pl-3 ">
       <h2 class="text-base font-bold">
         {{ fountain.description || 'No description available' }}
       </h2>
-      <p class="mt-1 text-xs ">
-        {{ fountain.isDrinkable ? 'potável' : 'não potável' }}
+      <p class="mt-1 text-xs font-semibold text-gray-700">
+        {{ fountain.isDrinkable ? 'Potável' : 'Não Potável' }}
       </p>
       <p class="mt-1 text-xs text-gray-700">
         <span class="font-semibold">Índice de Suscetibilidade:</span>
-        {{ fountain.susceptibilityIndex }}
+        {{ fountain.susceptibilityIndex === 'Moderate' ? 'Moderado' : 
+           (fountain.susceptibilityIndex === 'Low' ? 'Baixo' : 'Alto') }}
       </p>
       <p class="mt-1 text-xs text-gray-600">
         <span class="font-semibold">Cidade:</span>

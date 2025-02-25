@@ -3,8 +3,10 @@ import { Fountain } from '../../Models/fountain';
 import { FountainService } from '../../Services/fountain.service';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
+import { take, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-favourites',
@@ -16,7 +18,6 @@ import { RouterModule } from '@angular/router';
 export class FavouritesComponent implements OnInit {
   favorites: Fountain[] = [];
   isUserLoggedIn: boolean = false;
-  // Will hold the analysis data from the endpoint.
   analysisData: AnalysisData | null = null;
 
   constructor(
@@ -26,38 +27,66 @@ export class FavouritesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.user.subscribe(user => {
-      if (user && user.id) {
-        this.isUserLoggedIn = true;
-        // Fetch the user favorites.
-        this.fountainService.getUserFavourites(user.id).subscribe({
-          next: (data: Fountain[]) => {
-            this.favorites = data;
-            console.log('Fetched favorites:', this.favorites);
-            if (this.favorites.length > 0) {
-              // Extract the IDs and pass them in the required format.
-              const favoriteIds = this.favorites.map(f => f.id);
-              this.fountainService.getFavoritesAnalysis(favoriteIds).subscribe({
-                next: (analysis: AnalysisData) => {
-                  this.analysisData = analysis;
-                },
-                error: (err) => console.error('Error fetching analysis:', err)
-              });
-            }
-          },
-          error: err => console.error('Error fetching favorites:', err)
-        });
-      } else {
-        this.isUserLoggedIn = false;
-        this.router.navigate(['/login']);
-      }
+    this.authService.user.pipe(
+      take(1),
+      switchMap(user => {
+        if (user && user.id) {
+          this.isUserLoggedIn = true;
+          return this.fountainService.getUserFavourites(user.id);
+        } else {
+          this.isUserLoggedIn = false;
+          this.router.navigate(['/login']);
+          return of([]); // Ensure it returns an observable
+        }
+      })
+    ).subscribe({
+      next: (data: Fountain[]) => {
+        this.favorites = [...data]; // Copy to avoid direct reference
+        console.log('Fetched favorites:', this.favorites);
+        if (this.favorites.length > 0) {
+          const favoriteIds = this.favorites.map(f => f.id);
+          this.fountainService.getFavoritesAnalysis(favoriteIds).pipe(take(1)).subscribe({
+            next: (analysis: AnalysisData) => {
+              this.analysisData = analysis;
+            },
+            error: (err) => console.error('Error fetching analysis:', err)
+          });
+        }
+      },
+      error: err => console.error('Error fetching favorites:', err)
     });
   }
 
-  // Optional: Toggle favorite state (for example, to unfavorite a fountain)
   toggleFavorite(fav: Fountain): void {
-    console.log('Toggle favorite:', fav);
-    // Your toggle favorite logic goes here.
+    const currentUser = this.authService.currentUser;
+    if (!currentUser) {
+      console.error('User not logged in.');
+      return;
+    }
+
+    this.fountainService.toggleFavorite(currentUser.id, fav.id).pipe(
+      take(1),
+      switchMap(() => {
+        return this.fountainService.getUserFavourites(currentUser.id);
+      })
+    ).subscribe({
+      next: (data: Fountain[]) => {
+        this.favorites = [...data]; // Copy to avoid direct reference
+        console.log('Updated favorites:', this.favorites);
+        if (this.favorites.length > 0) {
+          const favoriteIds = this.favorites.map(f => f.id);
+          this.fountainService.getFavoritesAnalysis(favoriteIds).pipe(take(1)).subscribe({
+            next: (analysis: AnalysisData) => {
+              this.analysisData = analysis;
+            },
+            error: (err) => console.error('Error fetching analysis:', err)
+          });
+        } else {
+          this.analysisData = null; // Clear analysis data if no favorites
+        }
+      },
+      error: (err) => console.error('Error refreshing favorites:', err)
+    });
   }
 }
 

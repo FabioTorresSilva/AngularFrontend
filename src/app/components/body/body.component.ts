@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { MapComponent, LatLng } from '../Maps/map/map.component';
 import { FountainService } from '../../Services/fountain.service';
 import { AuthService } from '../../Services/auth.service';
-import { catchError, Observable, Subscription, tap, throwError } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Fountain } from '../../Models/fountain';
 import { RadonInfoComponent } from "./radon-info/radon-info.component";
-import { environment } from '../../../environments/environement';
 
 interface City {
   name: string;
@@ -44,68 +44,60 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.http.get<City[]>('assets/portuguese-cities.json').subscribe(
-      data => {
-        this.cities = data;
-      },
-      error => {
-        console.error('Error loading cities JSON:', error);
-      }
+      data => { this.cities = data; },
+      error => { console.error('Error loading cities JSON:', error); }
     );
-
-    // Existing initialization code for fetching locations and favorites...
-    this.authSubscription = this.authService.user.subscribe(user => {
-      this.isUserLoggedIn = !!user;
-      if (user && user.id) {
-        this.fountainService.getXFavourites(user.id, 3).subscribe({
-          next: (favData: Fountain[]) => {
-            this.favorites = favData;
-            console.log('User favorites:', this.favorites);
-          },
-          error: (err) => {
-            console.error('Error fetching favorites:', err);
-          }
-        });
-      }
+  
+    this.authSubscription = this.authService.user.pipe(
+      take(1),
+      switchMap(user => {
+        this.isUserLoggedIn = !!user;
+        if (user && user.id) {
+          return this.fountainService.getXFavourites(user.id, 3);
+        }
+        return of([]); // Ensure it returns an observable
+      })
+    ).subscribe({
+      next: (favData: Fountain[]) => {
+        this.favorites = [...favData]; // Use spread operator to avoid reference
+        console.log('User favorites:', this.favorites);
+      },
+      error: (err) => console.error('Error fetching favorites:', err)
     });
-
-    this.fountainService.getFountains().subscribe({
+  
+    this.fountainService.getFountains().pipe(take(1)).subscribe({
       next: (data: LatLng[]) => {
         console.log('Received fountain data in BodyComponent:', data);
         this.locations = data;
         this.filteredLocations = data;
       },
-      error: (error) => {
-        console.error('Error fetching fountain data:', error);
-      }
+      error: (error) => console.error('Error fetching fountain data:', error)
+    });
+  }
+  
+  toggleFavorite(fountain: Fountain): void {
+    const currentUser = this.authService.currentUser;
+    if (!currentUser) {
+      console.error('User not logged in.');
+      return;
+    }
+  
+    this.fountainService.toggleFavorite(currentUser.id, fountain.id).pipe(
+      take(1),
+      switchMap(() => {
+        return this.fountainService.getXFavourites(currentUser.id, 3);
+      })
+    ).subscribe({
+      next: (favData: Fountain[]) => {
+        this.favorites = [...favData]; // Avoid direct reference
+        console.log('Updated favorites:', this.favorites);
+      },
+      error: (err) => console.error('Error refreshing favorites:', err)
     });
   }
 
   ngOnDestroy() {
     this.authSubscription?.unsubscribe();
-  }
-
-  toggleFavorite(fountain: Fountain): void {
-    // Assuming your AuthService holds the current user details
-    const currentUser = this.authService.currentUser; // or however you access the current user
-    if (!currentUser) {
-      console.error('User not logged in.');
-      return;
-    }
-    
-    this.fountainService.toggleFavorite(currentUser.id, fountain.id).subscribe({
-      next: (result: Fountain) => {
-        console.log('Favorite toggled successfully', result);
-        this.fountainService.getXFavourites(currentUser.id, 3).subscribe({
-          next: (favData: Fountain[]) => {
-            this.favorites = favData;
-          },
-          error: err => console.error('Error refreshing favorites:', err)
-        });
-      },
-      error: (err) => {
-        console.error('Error toggling favorite:', err);
-      }
-    });
   }
 
   zoomNearMe(): void {
@@ -128,7 +120,6 @@ export class BodyComponent implements OnInit, OnDestroy {
     }
   }
   
-
   onCitySelect(event: Event): void {
     const selectedValue = (event.target as HTMLSelectElement).value;
 
@@ -141,5 +132,4 @@ export class BodyComponent implements OnInit, OnDestroy {
       }
     }
   }
-
 }

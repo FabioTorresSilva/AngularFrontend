@@ -16,11 +16,20 @@ interface ApiFountain {
   latitude: number;
   longitude: number;
 }
+export interface AnalysisData {
+  totalTests: number;
+  lowestRadonValue: number;
+  lowestRadonFountain: string;
+  highestRadonValue: number;
+  highestRadonFountain: string;
+  drinkablePercentage: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FountainService {
+  private analysisUrl = 'http://localhost:8080/api/wateranalysis/favorites/analysis';
   private apiUrl = `${environment.apiBaseUrl}/fountains`;
   private dotnetUrl = `${environment.dotnetUrl}/fountains`;
 
@@ -33,6 +42,11 @@ export class FountainService {
     });
   }
 
+  getFavoritesAnalysis(favoriteFountainIds: number[]): Observable<AnalysisData> {
+    const body = { favoriteFountainIds: favoriteFountainIds };
+    return this.http.post<AnalysisData>(this.analysisUrl, body);
+  }
+  
   toggleFavorite(userId: number, fountainId: number): Observable<Fountain> {
     const url = `${environment.apiBaseUrl}/user/addfavorite/${userId}/${fountainId}`;
     return this.http.post<Fountain>(url, null, { headers: this.getAuthHeaders() }).pipe(

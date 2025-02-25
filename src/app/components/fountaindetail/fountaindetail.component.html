@@ -6,16 +6,33 @@
     </div>
     <!-- Fountain Information (Right) -->
     <div class="w-2/3 pl-3 ">
-      <h2 class="text-base font-bold">
-        {{ fountain.description || 'No description available' }}
-      </h2>
+      <div class="flex items-center">
+        <h2 class="text-base font-bold">
+          {{ fountain.description || 'No description available' }}
+        </h2>
+        <!-- Heart Icon Button -->
+        <button (click)="toggleFavourite()" class="ml-2 focus:outline-none">
+          <ng-container *ngIf="isFavourite; else notFav">
+            <!-- Filled Heart Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657l-6.828-6.829a4 4 0 010-5.656z"/>
+            </svg>
+          </ng-container>
+          <ng-template #notFav>
+            <!-- Outline Heart Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </ng-template>
+        </button>
+      </div>
       <p class="mt-1 text-xs font-semibold text-gray-700">
         {{ fountain.isDrinkable ? 'Potável' : 'Não Potável' }}
       </p>
       <p class="mt-1 text-xs text-gray-700">
         <span class="font-semibold">Índice de Suscetibilidade:</span>
-        {{ fountain.susceptibilityIndex === 'Moderate' ? 'Moderado' :
-        (fountain.susceptibilityIndex === 'Low' ? 'Baixo' : 'Alto') }}
+        {{ fountain.susceptibilityIndex === 'Moderate' ? 'Moderado' : fountain.susceptibilityIndex === 'Low' ? 'Baixo' : 'Alto' }}
       </p>
       <p class="mt-1 text-xs text-gray-600">
         <span class="font-semibold">Cidade:</span>
@@ -26,35 +43,36 @@
         <span class="font-semibold">Long:</span> {{ fountain.lng }}
       </p>
     </div>
-
   </div>
-  <!-- Water Analysis Section -->
-  <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Últimas Análises</h3>
-    <div class="grid grid-cols-1 gap-4">
-      <div *ngFor="let analysis of waterAnalysis"
-        class="p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row justify-between items-center">
-        <div class="mb-2 sm:mb-0">
-          <p class="text-gray-700">
-            <span class="font-semibold">Concentração de Radão: </span>
-            {{ analysis.radonConcentration }}
-          </p>
-          <p class="text-gray-700">
-            <span class="font-semibold">Data da Análise:</span>
-            {{ analysis.date }}
-          </p>
-        </div>
+
+</div>
+<!-- Water Analysis Section -->
+<div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+  <h3 class="text-xl font-bold text-gray-800 mb-4">Últimas Análises</h3>
+  <div class="grid grid-cols-1 gap-4">
+    <div *ngFor="let analysis of waterAnalysis"
+      class="p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row justify-between items-center">
+      <div class="mb-2 sm:mb-0">
+        <p class="text-gray-700">
+          <span class="font-semibold">Concentração de Radão: </span>
+          {{ analysis.radonConcentration }}
+        </p>
+        <p class="text-gray-700">
+          <span class="font-semibold">Data da Análise:</span>
+          {{ analysis.date }}
+        </p>
       </div>
     </div>
   </div>
-  <div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-      [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke" [title]="chartOptions.title"
-      [tooltip]="chartOptions.tooltip">
-    </apx-chart>
-  </div>
-  <!-- Display a message when no water analysis is available -->
-  <div *ngIf="waterAnalysis && waterAnalysis.length === 0" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-    <p class="text-gray-700">No water analysis available.</p>
-  </div>
+</div>
+<div *ngIf="waterAnalysis?.length" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+    [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke" [title]="chartOptions.title"
+    [tooltip]="chartOptions.tooltip">
+  </apx-chart>
+</div>
+<!-- Display a message when no water analysis is available -->
+<div *ngIf="waterAnalysis && waterAnalysis.length === 0" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
+  <p class="text-gray-700">Sem Análises para esta fonte. Não conseguimos garantir a qualidade desta água.
+  </p>
 </div>

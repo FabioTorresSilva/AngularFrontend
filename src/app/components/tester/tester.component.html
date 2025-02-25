@@ -1,142 +1,39 @@
 <div class="min-h-screen bg-gray-100">
-  <!-- Navigation Menu -->
-  <div class="bg-white shadow">
+    <!-- Navigation Menu -->
+    <div class="bg-white shadow">
       <nav class="flex justify-center p-4 space-x-8">
-          <button 
-              class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
-              [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'water-analysis',
-                  'text-gray-600 border-transparent': selectedMenu !== 'water-analysis'
-              }" 
-              (click)="setMenu('water-analysis')">
-              Análises de Água
-          </button>
-          <button 
-              class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
-              [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'devices',
-                  'text-gray-600 border-transparent': selectedMenu !== 'devices'
-              }" 
-              (click)="setMenu('devices')">
-              Dispositivos
-          </button>
-          <button 
-              class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
-              [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'latest-analysis',
-                  'text-gray-600 border-transparent': selectedMenu !== 'latest-analysis'
-              }" 
-              (click)="setMenu('latest-analysis')">
-              Últimas Análises
-          </button>
-          <button 
-              class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
-              [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'stats',
-                  'text-gray-600 border-transparent': selectedMenu !== 'stats'
-              }" 
-              (click)="setMenu('stats')">
-              Estatísticas
-          </button>
+        <button 
+          class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
+          [ngClass]="{
+            'text-blue-500 border-blue-500': selectedMenu === 'water-analysis',
+            'text-gray-600 border-transparent': selectedMenu !== 'water-analysis'
+          }" 
+          (click)="setMenu('water-analysis')">
+          Análises de Água
+        </button>
+        <!-- Outros botões do menu -->
       </nav>
-  </div>
-
-  <!-- Main Content -->
-  <div class="p-8 lg:px-72">
+    </div>
+  
+    <!-- Main Content -->
+    <div class="p-8 lg:px-72">
       <!-- Water Analysis Section -->
       <div *ngIf="selectedMenu === 'water-analysis'" class="bg-white p-6 rounded shadow-md">
-          <h2 class="text-2xl font-bold mb-4">Criar Análise de Água</h2>
-          <form class="space-y-4">
-              <input 
-                  type="text" 
-                  placeholder="Localização da Amostra" 
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              />
-              <input 
-                  type="text" 
-                  placeholder="Nível do pH da Amostra" 
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              />
-              <input 
-                  type="text" 
-                  placeholder="Contaminantes da Amostra" 
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              />
-              <button class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
-                  Enviar Análise de Água
-              </button>
-          </form>
+        <h2 class="text-2xl font-bold mb-4">Criar Análise de Água</h2>
+        <form class="space-y-4">
+          <input 
+            type="number" 
+            placeholder="Concentração de Radão" 
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            [(ngModel)]="waterAnalysisData.radonConcentration" 
+            name="radonConcentration"
+            required
+          />
+          <!-- Outros campos do formulário -->
+          <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
+            Enviar Análise de Água
+          </button>
+        </form>
       </div>
-
-      <!-- Devices Section -->
-      <div *ngIf="selectedMenu === 'devices'" class="bg-white p-6 rounded shadow-md">
-          <h2 class="text-2xl font-bold mb-4">Criar Dispositivo</h2>
-          <form class="space-y-4">
-              <input 
-                  type="text" 
-                  placeholder="Device Name" 
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              />
-              <select class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Dispositivo de Uso Contínuo</option>
-                  <option>Dispositivo Regular</option>
-              </select>
-              <button class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
-                  Adicionar Dispositivo
-              </button>
-          </form>
-      </div>
-
-      <!-- Latest Water Analysis Section -->
-      <div *ngIf="selectedMenu === 'latest-analysis'" class="bg-white p-6 rounded shadow-md">
-          <h2 class="text-2xl font-bold mb-4">Última Análise de Água</h2>
-          <table class="min-w-full bg-white border">
-              <thead>
-                  <tr class="bg-gray-100">
-                      <th class="px-4 py-2 border">ID Análise</th>
-                      <th class="px-4 py-2 border">Localização</th>
-                      <th class="px-4 py-2 border">Nível do pH</th>
-                      <th class="px-4 py-2 border">Contaminantes</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr class="hover:bg-gray-50">
-                      <td class="px-4 py-2 border">ID da Análise de Amostra</td>
-                      <td class="px-4 py-2 border">Localização da Amostra</td>
-                      <td class="px-4 py-2 border">7.5</td>
-                      <td class="px-4 py-2 border">Baixo</td>
-                  </tr>
-                  <tr class="hover:bg-gray-50">
-                      <td class="px-4 py-2 border">ID da Análise de Amostra</td>
-                      <td class="px-4 py-2 border">Localização da Amostra</td>
-                      <td class="px-4 py-2 border">6.9</td>
-                      <td class="px-4 py-2 border">Médio</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-
-      <!-- Stats Section -->
-      <div *ngIf="selectedMenu === 'stats'" class="bg-white p-6 rounded shadow-md">
-          <h2 class="text-2xl font-bold mb-4">Estatísticas</h2>
-          <div class="grid grid-cols-2 gap-4">
-              <div class="p-4 bg-gray-100 rounded-lg text-center">
-                  <p class="text-lg font-bold">Todas Análises</p>
-                  <p class="text-2xl">Número da Amostra</p>
-              </div>
-              <div class="p-4 bg-gray-100 rounded-lg text-center">
-                  <p class="text-lg font-bold">Casos de Contaminação Alta</p>
-                  <p class="text-2xl">Número da Amostra</p>
-              </div>
-              <div class="p-4 bg-gray-100 rounded-lg text-center">
-                  <p class="text-lg font-bold">Média Nível pH</p>
-                  <p class="text-2xl">Amostra pH</p>
-              </div>
-              <div class="p-4 bg-gray-100 rounded-lg text-center">
-                  <p class="text-lg font-bold">Todos Dispositivos</p>
-                  <p class="text-2xl">Número da Amostra</p>
-              </div>
-          </div>
-      </div>
+    </div>
   </div>
-</div>

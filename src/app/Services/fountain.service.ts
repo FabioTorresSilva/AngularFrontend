@@ -32,6 +32,17 @@ export interface WaterAnalysisPayload {
   deviceId: number;
 }
 
+export interface NormalDevicePayload {
+  model: string;
+  serialNumber: string;
+  expirationDate: string; 
+}
+
+export interface ContinuousDevicePayload extends NormalDevicePayload {
+  analysisFrequency: number;
+  lastAnalysisDate: string; 
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -48,6 +59,17 @@ export class FountainService {
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+  }
+
+  createNormalDevice(device: NormalDevicePayload): Observable<any> {
+    const url = `${environment.apiBaseUrl}/devices`;
+    return this.http.post(url, device);
+  }
+  
+  // Endpoint for continuous use devices (e.g., http://localhost:8080/api/continuousUseDevice)
+  createContinuousDevice(device: ContinuousDevicePayload): Observable<any> {
+    const url = `${environment.apiBaseUrl}/continuousUseDevice`;
+    return this.http.post(url, device);
   }
 
   getFavoritesAnalysis(favoriteFountainIds: number[]): Observable<AnalysisData> {

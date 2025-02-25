@@ -2,28 +2,40 @@
   <!-- Navigation Menu -->
   <div class="bg-white shadow">
     <nav class="flex justify-center p-4 space-x-8">
-      <button class="py-2 px-4 font-semibold border-b-2 focus:outline-none" [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'water-analysis',
-                  'text-gray-600 border-transparent': selectedMenu !== 'water-analysis'
-              }" (click)="setMenu('water-analysis')">
+      <button 
+        class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
+        [ngClass]="{
+          'text-blue-500 border-blue-500': selectedMenu === 'water-analysis',
+          'text-gray-600 border-transparent': selectedMenu !== 'water-analysis'
+        }" 
+        (click)="setMenu('water-analysis')">
         Análises de Água
       </button>
-      <button class="py-2 px-4 font-semibold border-b-2 focus:outline-none" [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'devices',
-                  'text-gray-600 border-transparent': selectedMenu !== 'devices'
-              }" (click)="setMenu('devices')">
+      <button 
+        class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
+        [ngClass]="{
+          'text-blue-500 border-blue-500': selectedMenu === 'devices',
+          'text-gray-600 border-transparent': selectedMenu !== 'devices'
+        }" 
+        (click)="setMenu('devices')">
         Dispositivos
       </button>
-      <button class="py-2 px-4 font-semibold border-b-2 focus:outline-none" [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'latest-analysis',
-                  'text-gray-600 border-transparent': selectedMenu !== 'latest-analysis'
-              }" (click)="setMenu('latest-analysis')">
+      <button 
+        class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
+        [ngClass]="{
+          'text-blue-500 border-blue-500': selectedMenu === 'latest-analysis',
+          'text-gray-600 border-transparent': selectedMenu !== 'latest-analysis'
+        }" 
+        (click)="setMenu('latest-analysis')">
         Últimas Análises
       </button>
-      <button class="py-2 px-4 font-semibold border-b-2 focus:outline-none" [ngClass]="{
-                  'text-blue-500 border-blue-500': selectedMenu === 'stats',
-                  'text-gray-600 border-transparent': selectedMenu !== 'stats'
-              }" (click)="setMenu('stats')">
+      <button 
+        class="py-2 px-4 font-semibold border-b-2 focus:outline-none" 
+        [ngClass]="{
+          'text-blue-500 border-blue-500': selectedMenu === 'stats',
+          'text-gray-600 border-transparent': selectedMenu !== 'stats'
+        }" 
+        (click)="setMenu('stats')">
         Estatísticas
       </button>
     </nav>
@@ -31,20 +43,22 @@
 
   <!-- Main Content -->
   <div class="p-8 lg:px-72">
-
     <!-- Water Analysis Section -->
     <div *ngIf="selectedMenu === 'water-analysis'" class="bg-white p-6 rounded shadow-md">
       <h2 class="text-2xl font-bold mb-4">Criar Análise de Água</h2>
       <form (ngSubmit)="createWaterAnalysis()" class="space-y-4">
-        <input type="number" placeholder="Radon Concentration" [(ngModel)]="newAnalysis.radonConcentration"
-          name="radonConcentration"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-        <input type="number" placeholder="Fountain ID" [(ngModel)]="newAnalysis.fountainId" name="fountainId"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-        <input type="date" placeholder="Date" [(ngModel)]="newAnalysis.date" name="date"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-        <input type="number" placeholder="Device ID" [(ngModel)]="newAnalysis.deviceId" name="deviceId"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <input type="number" placeholder="Radon Concentration" 
+               [(ngModel)]="newAnalysis.radonConcentration" name="radonConcentration"
+               class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <input type="number" placeholder="Fountain ID" 
+               [(ngModel)]="newAnalysis.fountainId" name="fountainId"
+               class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <input type="date" placeholder="Date" 
+               [(ngModel)]="newAnalysis.date" name="date"
+               class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <input type="number" placeholder="Device ID" 
+               [(ngModel)]="newAnalysis.deviceId" name="deviceId"
+               class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
         <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
           Enviar Análise de Água
         </button>
@@ -54,21 +68,57 @@
       </div>
     </div>
 
-
     <!-- Devices Section -->
     <div *ngIf="selectedMenu === 'devices'" class="bg-white p-6 rounded shadow-md">
       <h2 class="text-2xl font-bold mb-4">Criar Dispositivo</h2>
-      <form class="space-y-4">
-        <input type="text" placeholder="Device Name"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <select class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option>Dispositivo de Uso Contínuo</option>
-          <option>Dispositivo Regular</option>
+      
+      <!-- Select Device Type -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-1">Tipo de Dispositivo</label>
+        <select [(ngModel)]="deviceType" name="deviceType"
+                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="normal">Dispositivo Normal</option>
+          <option value="continuous">Dispositivo de Uso Contínuo</option>
         </select>
-        <button class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
-          Adicionar Dispositivo
-        </button>
-      </form>
+      </div>
+
+      <!-- Form for Normal Device -->
+      <div *ngIf="deviceType === 'normal'">
+        <form (ngSubmit)="createNormalDevice()" class="space-y-4">
+          <input type="text" placeholder="Model" [(ngModel)]="normalDevice.model" name="model"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" placeholder="Serial Number" [(ngModel)]="normalDevice.serialNumber" name="serialNumber"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="date" placeholder="Expiration Date" [(ngModel)]="normalDevice.expirationDate" name="expirationDate"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
+            Criar Dispositivo Normal
+          </button>
+        </form>
+      </div>
+
+      <!-- Form for Continuous Use Device -->
+      <div *ngIf="deviceType === 'continuous'">
+        <form (ngSubmit)="createContinuousDevice()" class="space-y-4">
+          <input type="text" placeholder="Model" [(ngModel)]="continuousDevice.model" name="model"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" placeholder="Serial Number" [(ngModel)]="continuousDevice.serialNumber" name="serialNumber"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="date" placeholder="Expiration Date" [(ngModel)]="continuousDevice.expirationDate" name="expirationDate"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="number" placeholder="Analysis Frequency" [(ngModel)]="continuousDevice.analysisFrequency" name="analysisFrequency"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="date" placeholder="Last Analysis Date" [(ngModel)]="continuousDevice.lastAnalysisDate" name="lastAnalysisDate"
+                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md font-semibold">
+            Criar Dispositivo de Uso Contínuo
+          </button>
+        </form>
+      </div>
+      
+      <div *ngIf="deviceSuccessMessage" class="mt-4 text-green-600">
+        {{ deviceSuccessMessage }}
+      </div>
     </div>
 
     <!-- Latest Water Analysis Section -->

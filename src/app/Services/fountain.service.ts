@@ -16,6 +16,16 @@ interface ApiFountain {
   latitude: number;
   longitude: number;
 }
+
+export interface StatisticsData {
+  id: number;
+  averageRadonLevel: number;
+  maxRadonLevel: number;
+  minRadonLevel: number;
+  totalAnalysis: number;
+  date: string;
+}
+
 export interface AnalysisData {
   totalTests: number;
   lowestRadonValue: number;
@@ -47,10 +57,10 @@ export interface ContinuousDevicePayload extends NormalDevicePayload {
   providedIn: 'root'
 })
 export class FountainService {
-  private analysisUrl = 'http://localhost:8080/api/wateranalysis/favorites/analysis';
+  private analysisUrl = `${environment.apiBaseUrl}/wateranalysis/favorites/analysis`;
   private apiUrl = `${environment.apiBaseUrl}/fountains`;
   private dotnetUrl = `${environment.dotnetUrl}/fountains`;
-  private waterAnalysisUrl = 'http://localhost:8080/api/wateranalysis';
+  private waterAnalysisUrl = `${environment.apiBaseUrl}/wateranalysis`;
   
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -61,12 +71,22 @@ export class FountainService {
     });
   }
 
+  postStatistics(): Observable<StatisticsData> {
+    const url = `${environment.apiBaseUrl}/statistics`;
+    return this.http.post<StatisticsData>(url, null).pipe(
+      tap(data => console.log('Statistics data received:', data)),
+      catchError(error => {
+        console.error('Error fetching statistics:', error);
+        return throwError(() => new Error(error.message || 'Error fetching statistics'));
+      })
+    );
+  }
+
   createNormalDevice(device: NormalDevicePayload): Observable<any> {
     const url = `${environment.apiBaseUrl}/devices`;
     return this.http.post(url, device);
   }
   
-  // Endpoint for continuous use devices (e.g., http://localhost:8080/api/continuousUseDevice)
   createContinuousDevice(device: ContinuousDevicePayload): Observable<any> {
     const url = `${environment.apiBaseUrl}/continuousUseDevice`;
     return this.http.post(url, device);

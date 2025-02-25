@@ -14,12 +14,12 @@
     <table class="min-w-full bg-white border">
       <thead>
         <tr>
-          <th class="px-4 py-2 border">Description</th>
-          <th class="px-4 py-2 border">Susceptibility Index</th>
-          <th class="px-4 py-2 border">Is Drinkable</th>
+          <th class="px-4 py-2 border">Descrição</th>
+          <th class="px-4 py-2 border">Indice de Susceptibilidade</th>
+          <th class="px-4 py-2 border">é Potável</th>
           <th class="px-4 py-2 border">Latitude</th>
           <th class="px-4 py-2 border">Longitude</th>
-          <th class="px-4 py-2 border">Actions</th>
+          <th class="px-4 py-2 border">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -79,18 +79,18 @@
           <td class="px-4 py-2 border">
             <button *ngIf="editingFountainId !== fountain.id" (click)="editingFountainId = fountain.id"
               class="bg-blue-500 text-white px-2 py-1 rounded mr-2">
-              Update
+              Alterar
             </button>
             <ng-container *ngIf="editingFountainId === fountain.id">
               <button (click)="updateFountain(fountain)" class="bg-green-500 text-white px-2 py-1 rounded mr-2">
-                Save
+                Salvar
               </button>
               <button (click)="cancelFountainEdit()" class="bg-gray-500 text-white px-2 py-1 rounded">
-                Cancel
+                Cancelar
               </button>
             </ng-container>
             <button (click)="deleteFountain(fountain)" class="bg-red-500 text-white px-2 py-1 rounded ml-2">
-              Delete
+              Apagar
             </button>
           </td>
         </tr>
@@ -108,20 +108,20 @@
         </div>
         <!-- Susceptibility Index -->
         <div class="mb-4">
-          <label class="block text-gray-700 font-semibold mb-1" for="susceptibilityIndex">Susceptibility Index</label>
+          <label class="block text-gray-700 font-semibold mb-1" for="susceptibilityIndex">Indice de Susceptibilidade</label>
           <input type="number" id="susceptibilityIndex" [(ngModel)]="newFountain.susceptibilityIndex" name="susceptibilityIndex" required
             class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <!-- Continuous Use Device ID (Optional) -->
         <div class="mb-4">
-          <label class="block text-gray-700 font-semibold mb-1" for="continuousUseDeviceId">Continuous Use Device ID</label>
+          <label class="block text-gray-700 font-semibold mb-1" for="continuousUseDeviceId">Aparelho Medição Continuo</label>
           <input type="text" id="continuousUseDeviceId" [(ngModel)]="newFountain.continuousUseDeviceId" name="continuousUseDeviceId"
             placeholder="Optional" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <!-- Is Drinkable -->
         <div class="mb-4 flex items-center">
           <input type="checkbox" id="isDrinkable" [(ngModel)]="newFountain.isDrinkable" name="isDrinkable" class="mr-2" />
-          <label class="text-gray-700 font-semibold" for="isDrinkable">Is Drinkable</label>
+          <label class="text-gray-700 font-semibold" for="isDrinkable">É Potável</label>
         </div>
         <!-- Latitude -->
         <div class="mb-4">
@@ -137,7 +137,7 @@
         </div>
         <!-- Submit Button -->
         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md font-semibold">
-          Create Fountain
+          Criar Fonte
         </button>
       </form>
       <div *ngIf="createSuccessMessage" class="mt-4 text-green-600">

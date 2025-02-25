@@ -4,7 +4,7 @@
     <div class="w-1/3">
       <app-fountain-street-view [lat]="fountain.lat" [lng]="fountain.lng"></app-fountain-street-view>
     </div>
-    <!-- Fountain Information (Right) -->
+    <!-- Fountain Information-->
     <div class="w-2/3 pl-3 ">
       <div class="flex items-center">
         <h2 class="text-base font-bold">
@@ -13,13 +13,11 @@
         <!-- Heart Icon Button -->
         <button (click)="toggleFavourite()" class="ml-2 focus:outline-none">
           <ng-container *ngIf="isFavourite; else notFav">
-            <!-- Filled Heart Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
               <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657l-6.828-6.829a4 4 0 010-5.656z"/>
             </svg>
           </ng-container>
           <ng-template #notFav>
-            <!-- Outline Heart Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -71,7 +69,7 @@
     [tooltip]="chartOptions.tooltip">
   </apx-chart>
 </div>
-<!-- Display a message when no water analysis is available -->
+<!-- message when no water analysis is available -->
 <div *ngIf="waterAnalysis && waterAnalysis.length === 0" class="mt-6 p-4 bg-gray-50 rounded-lg shadow">
   <p class="text-gray-700">Sem Análises para esta fonte. Não conseguimos garantir a qualidade desta água.
   </p>

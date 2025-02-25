@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContinuousDevicePayload, FountainService, NormalDevicePayload, WaterAnalysisPayload } from '../../Services/fountain.service';
+import { ContinuousDevicePayload, FountainService, NormalDevicePayload, StatisticsData, WaterAnalysisPayload } from '../../Services/fountain.service';
 import { AuthService } from '../../Services/auth.service';
 import { WaterAnalysis } from '../../Models/wateranalysis';
 import { WaterAnalysisService } from '../../Services/water-analysis.service';
@@ -42,15 +42,13 @@ export class TesterComponent implements OnInit {
   };
 
   successMessage: string = '';
-
   userAnalysis: WaterAnalysis[] = [];
-
+  statistics: StatisticsData | null = null;
   constructor(private fountainService: FountainService, private authService: AuthService, private waterAnalysisService: WaterAnalysisService) { }
 
   setMenu(menu: string): void {
     this.selectedMenu = menu
   }
-
 
   createNormalDevice(): void {
     // Optionally, format the expirationDate if needed (usually the <input type="date"> returns "YYYY-MM-DD")
@@ -68,6 +66,17 @@ export class TesterComponent implements OnInit {
       }
     });
   }
+
+  loadStatistics(): void {
+    this.fountainService.postStatistics().subscribe({
+      next: (data: StatisticsData) => {
+        this.statistics = data;
+        console.log('Statistics:', data);
+      },
+      error: (err) => console.error('Error loading statistics:', err)
+    });
+  }
+
 
   // Called when the tester submits the continuous device form
   createContinuousDevice(): void {
@@ -89,6 +98,7 @@ export class TesterComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserAnalysis();
+    this.loadStatistics();
   }
 
   loadUserAnalysis(): void {

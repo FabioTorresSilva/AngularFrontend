@@ -127,10 +127,10 @@
       <table class="min-w-full bg-white border">
         <thead>
           <tr class="bg-gray-100">
-            <th class="px-4 py-2 border">Fountain ID</th>
-            <th class="px-4 py-2 border">Radon Concentration</th>
+            <th class="px-4 py-2 border">ID da fonte</th>
+            <th class="px-4 py-2 border">Concentração de Radão</th>
             <th class="px-4 py-2 border">Data</th>
-            <th class="px-4 py-2 border">Device ID</th>
+            <th class="px-4 py-2 border">Id Dispositivo</th>
           </tr>
         </thead>
         <tbody>
@@ -147,24 +147,33 @@
     <!-- Stats Section -->
     <div *ngIf="selectedMenu === 'stats'" class="bg-white p-6 rounded shadow-md">
       <h2 class="text-2xl font-bold mb-4">Estatísticas</h2>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Todas Análises</p>
-          <p class="text-2xl">Número da Amostra</p>
+      <ng-container *ngIf="statistics; else loadingStats">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 bg-gray-100 rounded-lg text-center">
+            <p class="text-lg font-bold">Total de Análises</p>
+            <p class="text-2xl">{{ statistics.totalAnalysis }}</p>
+          </div>
+          <div class="p-4 bg-gray-100 rounded-lg text-center">
+            <p class="text-lg font-bold">Nível Médio de Radão</p>
+            <p class="text-2xl">{{ statistics.averageRadonLevel }}</p>
+          </div>
+          <div class="p-4 bg-gray-100 rounded-lg text-center">
+            <p class="text-lg font-bold">Nível Máximo de Radão</p>
+            <p class="text-2xl">{{ statistics.maxRadonLevel }}</p>
+          </div>
+          <div class="p-4 bg-gray-100 rounded-lg text-center">
+            <p class="text-lg font-bold">Nível Mínimo de Radão</p>
+            <p class="text-2xl">{{ statistics.minRadonLevel }}</p>
+          </div>
+          <div class="p-4 bg-gray-100 rounded-lg text-center col-span-2">
+            <p class="text-lg font-bold">Data da Última Atualização</p>
+            <p class="text-2xl">{{ statistics.date }}</p>
+          </div>
         </div>
-        <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Casos de Contaminação Alta</p>
-          <p class="text-2xl">Número da Amostra</p>
-        </div>
-        <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Média Nível pH</p>
-          <p class="text-2xl">Amostra pH</p>
-        </div>
-        <div class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-lg font-bold">Todos Dispositivos</p>
-          <p class="text-2xl">Número da Amostra</p>
-        </div>
-      </div>
+      </ng-container>
+      <ng-template #loadingStats>
+        <p class="text-center">Carregando estatísticas...</p>
+      </ng-template>
     </div>
   </div>
 </div>

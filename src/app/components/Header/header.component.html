@@ -1,18 +1,13 @@
 <div class="text-TextColor lg:px-72 px-8">
     <div class="flex items-center justify-between px-6 pt-10 pb-4">
-      <!-- Centered Logo -->
       <div class="flex-1 flex justify-center">
         <a routerLink="/">
           <img src="../../../assets/Logo.png" width="100px" alt="Logo">
         </a>
       </div>
-  
-      <!-- Right: User Profile Icon -->
-      <div class="relative" *ngIf="isUserLoggedIn">
+        <div class="relative" *ngIf="isUserLoggedIn">
         <img src="../../../assets/Component 1.svg" class="cursor-pointer" width="40px" alt="Profile Icon" (click)="toggleDropdown()">
-  
-        <!-- Dropdown Content -->
-        <div *ngIf="showDropdown" class="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-4 w-48">
+          <div *ngIf="showDropdown" class="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-4 w-48">
           <p class="text-black font-bold">Olá, {{ userInfo?.name || 'User' }}!</p>
           <p class="text-black">Tipo: {{ userInfo?.role || 'Guest' }}</p>
           <button (click)="logout()" class="mt-2 bg-OrangeButton text-white px-4 py-2 rounded">

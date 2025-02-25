@@ -11,7 +11,7 @@ import { WaterAnalysis } from '../Models/wateranalysis';
 
 export class WaterAnalysisService {
   private apiUrl = `${environment.dotnetUrl}/wateranalysis`;
-  private latestAnalysisUrl = 'http://localhost:8080/api/user/analysis';
+  private latestAnalysisUrl = `${environment.apiBaseUrl}/user/analysis`;
   
   constructor(private http: HttpClient) { }
 

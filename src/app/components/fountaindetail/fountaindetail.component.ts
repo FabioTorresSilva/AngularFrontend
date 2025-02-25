@@ -1,4 +1,3 @@
-// fountaindetail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -26,7 +25,6 @@ export class FountainDetailComponent implements OnInit {
   waterAnalysis: WaterAnalysis[] = [];
   public chartOptions: ChartOptions = defaultChartOptions;
 
-  // New properties for handling favorites
   isFavourite: boolean = false;
   userFavourites: Fountain[] = [];
 
@@ -70,7 +68,7 @@ export class FountainDetailComponent implements OnInit {
                   }
                 );
             }
-            // Fetch user's favorites using the endpoint http://localhost:8080/api/user/favorites/{userId}
+            // Fetch user's favorites 
             const currentUser = this.authService.currentUser;
             if (currentUser) {
               this.managementService.getUserFavorites(currentUser.id).subscribe({

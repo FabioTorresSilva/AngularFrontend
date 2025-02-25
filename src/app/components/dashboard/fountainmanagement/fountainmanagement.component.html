@@ -1,0 +1,150 @@
+<div>
+    <h2 class="text-2xl font-bold mb-4">Fountain Management</h2>
+    
+    <!-- Search Fountain Section -->
+    <div class="mb-4 flex space-x-4">
+      <input type="text" placeholder="Enter Fountain ID" [(ngModel)]="fountainSearchId"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button (click)="searchFountain()" class="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold">
+        Search
+      </button>
+    </div>
+    
+    <!-- Fountain List Table -->
+    <table class="min-w-full bg-white border">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">Description</th>
+          <th class="px-4 py-2 border">Susceptibility Index</th>
+          <th class="px-4 py-2 border">Is Drinkable</th>
+          <th class="px-4 py-2 border">Latitude</th>
+          <th class="px-4 py-2 border">Longitude</th>
+          <th class="px-4 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fountain of fountains" class="hover:bg-gray-50">
+          <!-- Description Column -->
+          <td class="px-4 py-2 border">
+            <ng-container *ngIf="editingFountainId === fountain.id; else displayDescription">
+              <input type="text" [(ngModel)]="fountain.description" name="editFountainDescription_{{fountain.id}}"
+                class="w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </ng-container>
+            <ng-template #displayDescription>
+              {{ fountain.description }}
+            </ng-template>
+          </td>
+          <!-- Susceptibility Index Column -->
+          <td class="px-4 py-2 border">
+            <ng-container *ngIf="editingFountainId === fountain.id; else displaySusceptibility">
+              <input type="number" [(ngModel)]="fountain.susceptibilityIndex"
+                name="editFountainSusceptibility_{{fountain.id}}"
+                class="w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </ng-container>
+            <ng-template #displaySusceptibility>
+              {{ fountain.susceptibilityIndex }}
+            </ng-template>
+          </td>
+          <!-- Is Drinkable Column -->
+          <td class="px-4 py-2 border">
+            <ng-container *ngIf="editingFountainId === fountain.id; else displayDrinkable">
+              <input type="checkbox" [(ngModel)]="fountain.isDrinkable"
+                name="editFountainDrinkable_{{fountain.id}}" class="w-6 h-6" />
+            </ng-container>
+            <ng-template #displayDrinkable>
+              {{ fountain.isDrinkable ? 'Yes' : 'No' }}
+            </ng-template>
+          </td>
+          <!-- Latitude Column -->
+          <td class="px-4 py-2 border">
+            <ng-container *ngIf="editingFountainId === fountain.id; else displayLatitude">
+              <input type="number" [(ngModel)]="fountain.latitude" name="editFountainLatitude_{{fountain.id}}"
+                class="w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </ng-container>
+            <ng-template #displayLatitude>
+              {{ fountain.latitude }}
+            </ng-template>
+          </td>
+          <!-- Longitude Column -->
+          <td class="px-4 py-2 border">
+            <ng-container *ngIf="editingFountainId === fountain.id; else displayLongitude">
+              <input type="number" [(ngModel)]="fountain.longitude" name="editFountainLongitude_{{fountain.id}}"
+                class="w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </ng-container>
+            <ng-template #displayLongitude>
+              {{ fountain.longitude }}
+            </ng-template>
+          </td>
+          <!-- Actions Column -->
+          <td class="px-4 py-2 border">
+            <button *ngIf="editingFountainId !== fountain.id" (click)="editingFountainId = fountain.id"
+              class="bg-blue-500 text-white px-2 py-1 rounded mr-2">
+              Update
+            </button>
+            <ng-container *ngIf="editingFountainId === fountain.id">
+              <button (click)="updateFountain(fountain)" class="bg-green-500 text-white px-2 py-1 rounded mr-2">
+                Save
+              </button>
+              <button (click)="cancelFountainEdit()" class="bg-gray-500 text-white px-2 py-1 rounded">
+                Cancel
+              </button>
+            </ng-container>
+            <button (click)="deleteFountain(fountain)" class="bg-red-500 text-white px-2 py-1 rounded ml-2">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Create Fountain Form -->
+    <div class="mt-8 bg-white p-6 rounded shadow">
+      <h3 class="text-xl font-semibold mb-4">Create Fountain</h3>
+      <form (ngSubmit)="createFountain()">
+        <!-- Description -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-1" for="description">Description</label>
+          <input type="text" id="description" [(ngModel)]="newFountain.description" name="description" required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <!-- Susceptibility Index -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-1" for="susceptibilityIndex">Susceptibility Index</label>
+          <input type="number" id="susceptibilityIndex" [(ngModel)]="newFountain.susceptibilityIndex" name="susceptibilityIndex" required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <!-- Continuous Use Device ID (Optional) -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-1" for="continuousUseDeviceId">Continuous Use Device ID</label>
+          <input type="text" id="continuousUseDeviceId" [(ngModel)]="newFountain.continuousUseDeviceId" name="continuousUseDeviceId"
+            placeholder="Optional" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <!-- Is Drinkable -->
+        <div class="mb-4 flex items-center">
+          <input type="checkbox" id="isDrinkable" [(ngModel)]="newFountain.isDrinkable" name="isDrinkable" class="mr-2" />
+          <label class="text-gray-700 font-semibold" for="isDrinkable">Is Drinkable</label>
+        </div>
+        <!-- Latitude -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-1" for="latitude">Latitude</label>
+          <input type="number" id="latitude" [(ngModel)]="newFountain.latitude" name="latitude" required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <!-- Longitude -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-1" for="longitude">Longitude</label>
+          <input type="number" id="longitude" [(ngModel)]="newFountain.longitude" name="longitude" required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md font-semibold">
+          Create Fountain
+        </button>
+      </form>
+      <div *ngIf="createSuccessMessage" class="mt-4 text-green-600">
+        {{ createSuccessMessage }}
+      </div>
+    </div>
+  
+    <div *ngIf="successMessage" class="mt-4 text-green-600">{{ successMessage }}</div>
+  </div>
+  

@@ -21,15 +21,12 @@
             {{ fav.isDrinkable ? 'Potável' : 'Não potável' }}
           </td>
           <td class="px-4 py-2 border-b">
-            {{ fav.susceptibilityIndex === "Moderate" ? "Moderado" : fav.susceptibilityIndex == "Low" ? "Baixo":"Alto"
-            }}
+            {{ fav.susceptibilityIndex === "Moderate" ? "Moderado" : fav.susceptibilityIndex === "Low" ? "Baixo" : "Alto" }}
           </td>
           <td class="px-4 py-2 border-b">
             <span class="cursor-pointer text-red-500" (click)="toggleFavorite(fav)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20"
-                fill="currentColor">
-                <path
-                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657l-6.828-6.829a4 4 0 010-5.656z" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657l-6.828-6.829a4 4 0 010-5.656z"/>
               </svg>
             </span>
           </td>
@@ -37,6 +34,23 @@
       </tbody>
     </table>
 
-    <div>GRAFICO DA EVOLUCAO DAS SUAS FONTES?!</div>
+    <!-- Analysis Section: Display as Styled Text -->
+    <div *ngIf="analysisData" class="mt-6 p-4 bg-gray-50 rounded shadow">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">Estatísticas das Fontes Favoritas</h3>
+      <p class="text-sm text-gray-700 mb-1">
+        <span class="font-semibold">Total de Testes:</span> {{ analysisData.totalTests }}
+      </p>
+      <p class="text-sm text-gray-700 mb-1">
+        <span class="font-semibold">Radão Mínimo:</span> {{ analysisData.lowestRadonValue }} 
+        <span class="font-semibold">(Fonte: </span>{{ analysisData.lowestRadonFountain }}<span class="font-semibold">)</span>
+      </p>
+      <p class="text-sm text-gray-700 mb-1">
+        <span class="font-semibold">Radão Máximo:</span> {{ analysisData.highestRadonValue }}
+        <span class="font-semibold">(Fonte: </span>{{ analysisData.highestRadonFountain }}<span class="font-semibold">)</span>
+      </p>
+      <p class="text-sm text-gray-700">
+        <span class="font-semibold">Percentagem de Fontes Potáveis:</span> {{ analysisData.drinkablePercentage }}%
+      </p>
+    </div>
   </div>
 </div>

@@ -11,7 +11,6 @@ import { ManagementService } from '../../../Services/management.service';
   styleUrls: ['./fountainmanagement.component.css']
 })
 export class FountainmanagementComponent {
-  // Properties for fountain creation
   newFountain: {
     description: string;
     susceptibilityIndex: number;
@@ -29,7 +28,6 @@ export class FountainmanagementComponent {
   };
   createSuccessMessage: string = '';
 
-  // Properties for search and list management
   fountainSearchId: string = '';
   fountains: any[] = [];
   successMessage: string = '';
@@ -39,7 +37,6 @@ export class FountainmanagementComponent {
 
   createFountain(): void {
     const payload = { ...this.newFountain };
-    // If continuousUseDeviceId is empty, send it as null
     if (!payload.continuousUseDeviceId) {
       payload.continuousUseDeviceId = null;
     }
@@ -47,7 +44,6 @@ export class FountainmanagementComponent {
     this.managementService.createFountain(payload).subscribe({
       next: (res: any) => {
         this.createSuccessMessage = 'Fountain created successfully';
-        // Reset the form
         this.newFountain = {
           description: '',
           susceptibilityIndex: 0,

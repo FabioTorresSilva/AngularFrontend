@@ -19,6 +19,7 @@ export class AuthService {
     if (tokenData) {
       try {
         storedUser = JSON.parse(tokenData) as User;
+        console.log(storedUser)
       } catch (e) {
         console.error('Erro ao converter token para JSON:', e);
       }

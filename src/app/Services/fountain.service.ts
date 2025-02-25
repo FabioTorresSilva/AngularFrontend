@@ -25,6 +25,13 @@ export interface AnalysisData {
   drinkablePercentage: number;
 }
 
+export interface WaterAnalysisPayload {
+  radonConcentration: number;
+  fountainId: number;
+  date: string;
+  deviceId: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +39,8 @@ export class FountainService {
   private analysisUrl = 'http://localhost:8080/api/wateranalysis/favorites/analysis';
   private apiUrl = `${environment.apiBaseUrl}/fountains`;
   private dotnetUrl = `${environment.dotnetUrl}/fountains`;
-
+  private waterAnalysisUrl = 'http://localhost:8080/api/wateranalysis';
+  
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   private getAuthHeaders(): HttpHeaders {
@@ -46,7 +54,12 @@ export class FountainService {
     const body = { favoriteFountainIds: favoriteFountainIds };
     return this.http.post<AnalysisData>(this.analysisUrl, body);
   }
-  
+
+  associateWaterAnalysis(userId: number, waterAnalysisId: number): Observable<any> {
+    const url = `http://localhost:8080/api/user/addwaterAnalysis/${userId}/${waterAnalysisId}`;
+    return this.http.post<any>(url, null); 
+  }
+
   toggleFavorite(userId: number, fountainId: number): Observable<Fountain> {
     const url = `${environment.apiBaseUrl}/user/addfavorite/${userId}/${fountainId}`;
     return this.http.post<Fountain>(url, null, { headers: this.getAuthHeaders() }).pipe(
@@ -56,6 +69,10 @@ export class FountainService {
         return throwError(() => new Error(error.message || 'An error occurred'));
       })
     );
+  }
+
+  createWaterAnalysis(analysis: WaterAnalysisPayload): Observable<any> {
+    return this.http.post<any>(this.waterAnalysisUrl, analysis);
   }
 
   getFountains(): Observable<LatLng[]> {
